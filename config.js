@@ -1,3 +1,4 @@
+// config.js
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -10,7 +11,7 @@ export const firebaseConfig = {
   messagingSenderId: "181473845503",
   appId: "1:181473845503:web:dd0c46af656a053fc62cca",
   measurementId: "G-JPHR3PDM0T"
-}
+};
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
