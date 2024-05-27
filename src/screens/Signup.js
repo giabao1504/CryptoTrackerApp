@@ -6,10 +6,31 @@ import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../../components/Button';
 import { signupStyles } from './styles';
+import { firebase } from '../../config'
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassWord] = useState('');
+
+    signupUser = async (email, password) => {
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                firebase.auth().currentUser.sendEmailVerification({
+                    handleCodeInApp: true,
+                    url: 'https://crypto-b9821.firebaseapp.com',
+                })
+                    .then(() => {
+                        alert('Verification email sent')
+                    }).catch((error) => { alert(error.message) })
+                    .then(() => {
+                        firebase.firestore().collection('users')
+                            .doc(firebase.auth().currentUser.uid)
+                            .set({ email })
+                    }).catch((error) => { alert(error.message) })
+            }).catch((error) => { alert(error.message) })
+    }
 
     return (
         <SafeAreaView style={signupStyles.container}>
@@ -26,6 +47,9 @@ const Signup = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             keyboardType='email-address'
                             style={signupStyles.inputField}
+                            onChangeText={(email) => setEmail(email)}
+                            autoCapitalize='none'
+                            autoCorrect={false}
                         />
                     </View>
                 </View>
@@ -38,6 +62,9 @@ const Signup = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             secureTextEntry={!isPasswordShown}
                             style={signupStyles.passwordInput}
+                            onChangeText={(password) => setPassWord(password)}
+                            autoCapitalize='none'
+                            autoCorrect={false}
                         />
                         <TouchableOpacity
                             onPress={() => setIsPasswordShown(!isPasswordShown)}
@@ -61,6 +88,7 @@ const Signup = ({ navigation }) => {
                 <Button
                     title="Sign Up"
                     style={signupStyles.button}
+                    onPress={() => signupUser(email, password)}
                 />
 
                 <View style={signupStyles.dividerContainer}>

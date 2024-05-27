@@ -3,16 +3,18 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyBW7Ux0E5yIf5g6hGDCp9jJXQqfRsPlRks",
-  authDomain: "test-d49f3.firebaseapp.com",
-  projectId: "test-d49f3",
-  storageBucket: "test-d49f3.appspot.com",
-  messagingSenderId: "181473845503",
-  appId: "1:181473845503:web:dd0c46af656a053fc62cca",
-  measurementId: "G-JPHR3PDM0T"
+const firebaseConfig = {
+  apiKey: "AIzaSyAY9WJ3fqjsc03etP0Kj8n-D6KtQPL9JOg",
+  authDomain: "crypto-b9821.firebaseapp.com",
+  projectId: "crypto-b9821",
+  storageBucket: "crypto-b9821.appspot.com",
+  messagingSenderId: "163903377830",
+  appId: "1:163903377830:web:f4a0f1eb8a1cbd0aad7f67",
+  measurementId: "G-8BQ99T9YRG"
 };
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
+
+export { firebase };

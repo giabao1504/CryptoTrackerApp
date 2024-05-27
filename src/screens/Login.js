@@ -6,10 +6,24 @@ import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../../components/Button';
 import { loginStyles } from './styles';
+import { firebase } from '../../config'
 
 const Login = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassWord] = useState('');
+
+    loginUser = async (email, password) => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email, password)
+        } catch (error) {
+            if (error.code === 'auth/invalid-login-credentials') {
+                alert("Wrong email or password")
+            }
+            // alert(error.message)
+        }
+    }
 
     return (
         <SafeAreaView style={loginStyles.container}>
@@ -28,6 +42,9 @@ const Login = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             keyboardType='email-address'
                             style={loginStyles.inputField}
+                            onChangeText={(email) => setEmail(email)}
+                            autoCapitalize='none'
+                            autoCorrect={false}
                         />
                     </View>
                 </View>
@@ -40,6 +57,9 @@ const Login = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             secureTextEntry={!isPasswordShown}
                             style={loginStyles.passwordInput}
+                            onChangeText={(password) => setPassWord(password)}
+                            autoCapitalize='none'
+                            autoCorrect={false}
                         />
                         <TouchableOpacity
                             onPress={() => setIsPasswordShown(!isPasswordShown)}
@@ -63,6 +83,7 @@ const Login = ({ navigation }) => {
                 <Button
                     title="Login"
                     style={loginStyles.button}
+                    onPress={() => loginUser(email, password)}
                 />
 
                 <View style={loginStyles.dividerContainer}>
