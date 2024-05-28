@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login, Signup, Welcome, Dashboard } from './src/screens';
-import React, { useState, useEffect } from 'react'; // Corrected the import
+import React, { useState, useEffect } from 'react';
 import { firebase } from './config';
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +16,7 @@ function App() {
     if (initializing) setInitializing(false);
   }
 
-  useEffect(() => { // Corrected the hook name
+  useEffect(() => {
     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // Unsubscribe on unmount
   }, []);
@@ -57,7 +57,23 @@ function App() {
         name="Dashboard"
         component={Dashboard}
         options={{
-          headerShown: false,
+          title: 'Markets',
+          headerStyle: {
+            backgroundColor: '#fff',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          },
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: 'bold',
+          },
+          headerTintColor: '#000', // Set color for the title and back button
         }}
       />
     </Stack.Navigator>
